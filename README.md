@@ -1,0 +1,1 @@
+# sosiometripka2026
