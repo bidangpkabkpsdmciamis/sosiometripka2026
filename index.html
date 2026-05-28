@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sosiometri - BKPSDM Kabupaten Ciamis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f7fb;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 24px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        /* Header dengan tema profesional */
+        .header {
+            background: linear-gradient(135deg, #0a2540 0%, #1a4a6f 100%);
+            color: white;
+            padding: 20px 28px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-area img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .logo-area h1 {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .logo-area p {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        .judul-form {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .judul-form h2 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .judul-form p {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 700px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .judul-form {
+                margin-left: 0;
+                text-align: center;
+            }
+        }
+
+        .info-penilai {
+            background: #f8fafd;
+            padding: 18px 28px;
+            border-bottom: 1px solid #e6edf4;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1a4a6f;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #d0dbe8;
+            font-size: 14px;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .form-group select:focus, .form-group input:focus {
+            outline: none;
+            border-color: #e8a838;
+            box-shadow: 0 0 0 3px rgba(232,168,56,0.2);
+        }
+
+        .section {
+            padding: 20px 28px;
+            border-bottom: 1px solid #eef3fa;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0a2540;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e8a838;
+            display: inline-block;
+        }
+
+        .indikator {
+            margin-bottom: 28px;
+            background: #ffffff;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #eef3fa;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: 0.2s;
+        }
+
+        .indikator:hover {
+            border-color: #d0dbe8;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .indikator-nama {
+            font-weight: 700;
+            color: #1a4a6f;
+            margin-bottom: 16px;
+            font-size: 14px;
+            background: #f0f5fb;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 4px solid #e8a838;
+        }
+
+        .peserta-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding: 10px;
+            background: #fefefe;
+            border-radius: 8px;
+            border: 1px solid #f0f5fb;
+        }
+
+        .peserta-row .label-urutan {
+            width: 80px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a6a85;
+        }
+
+        .peserta-row select {
+            flex: 2;
+            min-width: 240px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #d0dbe8;
+            font-size: 13px;
+            background: white;
+        }
+
+        .peserta-row select:focus {
+            border-color: #e8a838;
+            outline: none;
+        }
+
+        .peserta-row .nilai-wrapper {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .peserta-row .nilai-wrapper select {
+            width: 100%;
+        }
+
+        @media (max-width: 700px) {
+            .peserta-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .peserta-row .label-urutan {
+                width: auto;
+            }
+            .section {
+                padding: 16px;
+            }
+        }
+
+        .footer-form {
+            padding: 20px 28px 28px;
+            background: #f8fafd;
+            text-align: center;
+            border-top: 1px solid #eef3fa;
+        }
+
+        .confirm-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-simpan, .btn-selesai {
+            background: #e8a838;
+            color: #0a2540;
+            border: none;
+            padding: 12px 36px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 0 8px;
+        }
+
+        .btn-simpan:hover, .btn-selesai:hover {
+            background: #d4911f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232,168,56,0.3);
+        }
+
+        .btn-simpan:disabled, .btn-selesai:disabled {
+            background: #c0cbd8;
+            color: #5a6e82;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-selesai {
+            background: #1a4a6f;
+            color: white;
+        }
+
+        .btn-selesai:hover {
+            background: #0a2540;
+        }
+
+        .status-msg {
+            margin-top: 14px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-msg.success {
+            color: #1e7b48;
+            background: #e3f5ec;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .progress-summary {
+            background: #f0f5fb;
+            padding: 12px 20px;
+            margin: 0 28px 10px 28px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a4a6f;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Aksen emas untuk elemen penting */
+        .badge {
+            background: #e8a83820;
+            color: #b87a1a;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        select option {
+            padding: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-area">
+                <img src="https://i.ibb.co.com/8np1vSZj/images-2-removebg-preview.png" alt="images 2 removebg preview" border="0">
+                <div>
+                    <h1>Badan Kepegawaian dan<br>Pengembangan Sumber Daya Manusia<br>Kabupaten Ciamis</h1>
+                    <p>BKPSDM Kabupaten Ciamis</p>
+                </div>
+            </div>
+            <div class="judul-form">
+                <h2>SOSIOMETRI</h2>
+                <p>Pelatihan Kepemimpinan Administrator</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-penilai">
+        <div class="form-group">
+            <label>Nama Peserta (Penilai)</label>
+            <select id="penilaiName">
+                <option value="">-- Pilih nama Anda --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>NDH Penilai</label>
+            <input type="text" id="penilaiNdh" readonly placeholder="Otomatis terisi">
+        </div>
+    </div>
+
+    <div id="progressSummary" class="progress-summary"></div>
+
+    <div id="formContainer">
+        <!-- akan diisi oleh javascript -->
+    </div>
+
+    <div class="footer-form">
+        <div class="confirm-area">
+            <input type="checkbox" id="confirmCheckbox">
+            <label for="confirmCheckbox">Saya menyatakan bahwa penilaian yang saya berikan sudah benar sesuai fakta.</label>
+        </div>
+        <div id="statusMsg" class="status-msg"></div>
+        <div class="button-group">
+            <button class="btn-simpan" id="simpanBtn">Simpan dan Kirim ke Rekapitulasi</button>
+            <button class="btn-selesai hidden" id="selesaiBtn">Selesai</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw-sXgaOGMsd0KsQTmQYpDn72CyKrGUJfI3fAxZDTQYj2FEevZy45m9iu4St-eu5Foa4g/exec';
+
+    const pesertaData = [
+        { ndh: "1", nama: "ADANG HARTONO, S.Sos., M.M." },
+        { ndh: "2", nama: "AGUS SETIADI, S.IP., M.M." },
+        { ndh: "3", nama: "ARIE SYAHRIAR MAULANA, S.T." },
+        { ndh: "4", nama: "ARIS GUNANTO, S.Pd., M.Pd." },
+        { ndh: "5", nama: "ASEP SULAEMAN, S.STP., M.M." },
+        { ndh: "6", nama: "BUDI YUDIA WAHYU, S.STP., M.Si." },
+        { ndh: "7", nama: "DADAN HARDIANTO, S.Hut., M.P." },
+        { ndh: "8", nama: "DEDEN NURHADANA, S.H., M.H." },
+        { ndh: "9", nama: "DIAN KUSDIANA, S.IP., M.M." },
+        { ndh: "10", nama: "DINI KUSLIANI, S.H., M.Si." },
+        { ndh: "11", nama: "EDIS HERDIS, S.Sos., M.M." },
+        { ndh: "12", nama: "ERWIN FIRWANSYAH, S.IP., M.Si." },
+        { ndh: "13", nama: "ERWIN MOCHAMMAD SYAM, S.IP." },
+        { ndh: "14", nama: "FENY SETIAPRIYANA, S.T., M.M." },
+        { ndh: "15", nama: "HERDIANA, S.E., M.Si." },
+        { ndh: "16", nama: "HERRY SOMANTRI, S.E., M.M." },
+        { ndh: "17", nama: "IRFAN HIELMI, S.STP., M.Si." },
+        { ndh: "18", nama: "MAR DIYANA YUSUF, S.E., M.M." },
+        { ndh: "19", nama: "MOCH. IVAN SAEFUL A., S.KM., M.Si." },
+        { ndh: "20", nama: "MOHAMAD FAIZAL RONALD, S.STP., M.M." },
+        { ndh: "21", nama: "OHIM ABDUROHIM, S.IP., M.Si." },
+        { ndh: "22", nama: "RADEN ARIS SUKMAYANA, S.STP., M.Si." },
+        { ndh: "23", nama: "RIFKI ARIFIN, S.H., M.M." },
+        { ndh: "24", nama: "RINI VALIANTI, S.T., M.T., M.Sc." },
+        { ndh: "25", nama: "SLAMET TAHER, S.ST., M.M." },
+        { ndh: "26", nama: "TEDY TRESADI, S.E., M.M." },
+        { ndh: "27", nama: "TIGIN ARY GINANJAR, S.STP., M.M." },
+        { ndh: "28", nama: "WIDIYA PRANATA, S.STP., M.M." },
+        { ndh: "29", nama: "drh. YANTI HERAYANI, M.M." },
+        { ndh: "30", nama: "YUDY HENDRIANA, S.IP." }
+    ];
+
+    // Nilai dari 100 ke 76 (terbesar ke terkecil)
+    function generateNilaiOptions() {
+        let options = '';
+        for (let i = 100; i >= 76; i--) {
+            options += `<option value="${i}">${i}</option>`;
+        }
+        return options;
+    }
+
+    const indikatorData = {
+        kepemimpinan: {
+            label: "Kepemimpinan",
+            indikator: [
+                "Peserta yang paling memiliki sikap bertanggung jawab terhadap kegiatan yang ditugaskan",
+                "Peserta yang paling dapat mempengaruhi teman seangkatan",
+                "Peserta yang paling sering menjadi penentu dalam mengambil kesepakatan/keputusan kelas",
+                "Peserta yang paling banyak mendorong terjalinnya kekompakan angkatan",
+                "Peserta yang memiliki inisiatif dan ide-ide baru dalam diskusi kelas/kelompok"
+            ]
+        },
+        kerjasama: {
+            label: "Kerja Sama",
+            indikator: [
+                "Peserta yang paling banyak memberikan bantuan kepada sesama peserta",
+                "Peserta yang bisa menjembatani komunikasi dengan teman sekelas",
+                "Peserta yang sering memberi masukan konstruktif terkait dengan tugas kelompok",
+                "Peserta yang paling mudah dan kooperatif untuk diajak kerja sama"
+            ]
+        },
+        kedisiplinan: {
+            label: "Kedisiplinan",
+            indikator: [
+                "Peserta yang paling rajin dalam mengerjakan tugas individu, kelompok, dan angkatan",
+                "Peserta yang tidak pernah datang terlambat untuk kegiatan pembelajaran",
+                "Peserta yang paling taat pada tata tertib / peraturan pelatihan"
+            ]
+        }
+    };
+
+    function generateDropdownOptions(excludeNdh = null) {
+        let options = '<option value="">-- Pilih Peserta --</option>';
+        for (const p of pesertaData) {
+            if (excludeNdh && p.ndh === excludeNdh) continue;
+            options += `<option value="${p.ndh}">[NDH ${p.ndh}] ${p.nama}</option>`;
+        }
+        return options;
+    }
+
+    let formState = {};
+
+    function generateForm() {
+        const nilaiOpts = generateNilaiOptions();
+        let html = '';
+        
+        for (const [kategoriKey, kategori] of Object.entries(indikatorData)) {
+            html += `<div class="section">`;
+            html += `<div class="section-title">${kategori.label}</div>`;
+            
+            for (let i = 0; i < kategori.indikator.length; i++) {
+                const indikator = kategori.indikator[i];
+                const indKey = `${kategoriKey}_${i}`;
+                
+                if (!formState[indKey]) {
+                    formState[indKey] = [];
+                    for (let j = 1; j <= 5; j++) {
+                        formState[indKey].push({ pesertaNdh: '', nilai: '' });
+                    }
+                }
+                
+                html += `
+                    <div class="indikator" data-kategori="${kategoriKey}" data-indikator-index="${i}">
+                        <div class="indikator-nama">${i+1}. ${indikator}</div>
+                `;
+                
+                for (let j = 1; j <= 5; j++) {
+                    html += `
+                        <div class="peserta-row" data-urutan="${j}">
+                            <div class="label-urutan">Peserta ${j}</div>
+                            <select class="select-peserta" data-kategori="${kategoriKey}" data-indikator="${i}" data-urutan="${j}">
+                                ${generateDropdownOptions()}
+                            </select>
+                            <div class="nilai-wrapper">
+                                <select class="select-nilai" data-kategori="${kategoriKey}" data-indikator="${i}" data-urutan="${j}">
+                                    <option value="">-- Pilih Nilai --</option>
+                                    ${nilaiOpts}
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                }
+                html += `</div>`;
+            }
+            html += `</div>`;
+        }
+        
+        document.getElementById('formContainer').innerHTML = html;
+        restoreStateToDOM();
+        attachEventListeners();
+        updateProgressSummary();
+    }
+
+    function restoreStateToDOM() {
+        for (const [indKey, rows] of Object.entries(formState)) {
+            const [kategoriKey, indikatorIdx] = indKey.split('_');
+            for (let j = 1; j <= 5; j++) {
+                const pesertaSelect = document.querySelector(`.select-peserta[data-kategori="${kategoriKey}"][data-indikator="${indikatorIdx}"][data-urutan="${j}"]`);
+                const nilaiSelect = document.querySelector(`.select-nilai[data-kategori="${kategoriKey}"][data-indikator="${indikatorIdx}"][data-urutan="${j}"]`);
+                if (pesertaSelect && rows[j-1].pesertaNdh) {
+                    pesertaSelect.value = rows[j-1].pesertaNdh;
+                }
+                if (nilaiSelect && rows[j-1].nilai) {
+                    nilaiSelect.value = rows[j-1].nilai;
+                }
+            }
+        }
+    }
+
+    function attachEventListeners() {
+        const pesertaSelects = document.querySelectorAll('.select-peserta');
+        const nilaiSelects = document.querySelectorAll('.select-nilai');
+        
+        pesertaSelects.forEach(select => {
+            select.removeEventListener('change', handlePesertaChange);
+            select.addEventListener('change', handlePesertaChange);
+        });
+        
+        nilaiSelects.forEach(select => {
+            select.removeEventListener('change', handleNilaiChange);
+            select.addEventListener('change', handleNilaiChange);
+        });
+    }
+
+    function handlePesertaChange(e) {
+        const select = e.target;
+        const kategori = select.dataset.kategori;
+        const indikator = select.dataset.indikator;
+        const urutan = parseInt(select.dataset.urutan);
+        const indKey = `${kategori}_${indikator}`;
+        const selectedNdh = select.value;
+        
+        if (selectedNdh) {
+            const isDuplicate = checkDuplicateInIndikator(kategori, indikator, selectedNdh, urutan);
+            if (isDuplicate) {
+                alert('Peserta sudah dipilih pada indikator yang sama. Pilih peserta lain.');
+                select.value = '';
+                return;
+            }
+        }
+        
+        if (!formState[indKey]) {
+            formState[indKey] = [];
+            for (let i = 1; i <= 5; i++) {
+                formState[indKey].push({ pesertaNdh: '', nilai: '' });
+            }
+        }
+        
+        formState[indKey][urutan-1].pesertaNdh = selectedNdh;
+        updateProgressSummary();
+    }
+
+    function handleNilaiChange(e) {
+        const select = e.target;
+        const kategori = select.dataset.kategori;
+        const indikator = select.dataset.indikator;
+        const urutan = parseInt(select.dataset.urutan);
+        const indKey = `${kategori}_${indikator}`;
+        const nilai = select.value;
+        
+        if (!formState[indKey]) {
+            formState[indKey] = [];
+            for (let i = 1; i <= 5; i++) {
+                formState[indKey].push({ pesertaNdh: '', nilai: '' });
+            }
+        }
+        
+        formState[indKey][urutan-1].nilai = nilai;
+        updateProgressSummary();
+    }
+
+    function checkDuplicateInIndikator(kategori, indikator, ndh, skipUrutan) {
+        const indKey = `${kategori}_${indikator}`;
+        const rows = formState[indKey] || [];
+        for (let i = 0; i < rows.length; i++) {
+            if (i !== skipUrutan-1 && rows[i].pesertaNdh === ndh && rows[i].pesertaNdh !== '') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function updateProgressSummary() {
+        let totalFields = 0;
+        let filledFields = 0;
+        
+        for (const [indKey, rows] of Object.entries(formState)) {
+            for (const row of rows) {
+                totalFields++;
+                if (row.pesertaNdh && row.nilai) {
+                    filledFields++;
+                }
+            }
+        }
+        
+        const percent = Math.round((filledFields / totalFields) * 100);
+        const summary = document.getElementById('progressSummary');
+        if (summary) {
+            summary.innerHTML = `Progress pengisian: ${filledFields} dari ${totalFields} penilaian terisi (${percent}%)`;
+            if (filledFields === totalFields) {
+                summary.style.background = '#e3f5ec';
+                summary.style.color = '#1e7b48';
+            } else {
+                summary.style.background = '#f0f5fb';
+                summary.style.color = '#1a4a6f';
+            }
+        }
+    }
+
+    function initPenilaiDropdown() {
+        const select = document.getElementById('penilaiName');
+        select.innerHTML = '<option value="">-- Pilih nama Anda --</option>';
+        for (const p of pesertaData) {
+            const option = document.createElement('option');
+            option.value = p.ndh;
+            option.textContent = `${p.nama} (NDH: ${p.ndh})`;
+            select.appendChild(option);
+        }
+        
+        select.addEventListener('change', function() {
+            const selectedNdh = this.value;
+            if (selectedNdh) {
+                document.getElementById('penilaiNdh').value = selectedNdh;
+            } else {
+                document.getElementById('penilaiNdh').value = '';
+            }
+        });
+    }
+
+    function collectAllData() {
+        const result = {};
+        
+        for (const [kategoriKey, kategori] of Object.entries(indikatorData)) {
+            result[kategoriKey] = [];
+            for (let i = 0; i < kategori.indikator.length; i++) {
+                const indKey = `${kategoriKey}_${i}`;
+                const rows = formState[indKey] || [];
+                const indikatorPenilaian = [];
+                for (let j = 0; j < rows.length; j++) {
+                    const row = rows[j];
+                    if (row.pesertaNdh && row.nilai) {
+                        const peserta = pesertaData.find(p => p.ndh === row.pesertaNdh);
+                        indikatorPenilaian.push({
+                            urutan: j+1,
+                            ndh: row.pesertaNdh,
+                            nama: peserta ? peserta.nama : '',
+                            nilai: parseInt(row.nilai)
+                        });
+                    }
+                }
+                result[kategoriKey].push({
+                    indikator: kategori.indikator[i],
+                    penilaian: indikatorPenilaian
+                });
+            }
+        }
+        return result;
+    }
+
+    function validateAll() {
+        const penilaiNdh = document.getElementById('penilaiNdh').value;
+        const penilaiNameSelect = document.getElementById('penilaiName');
+        const penilaiNama = penilaiNameSelect.options[penilaiNameSelect.selectedIndex]?.text.split(' (NDH:')[0] || '';
+        
+        if (!penilaiNdh || !penilaiNama) {
+            alert('Harap pilih nama peserta sebagai penilai terlebih dahulu.');
+            return false;
+        }
+        
+        let totalRequired = 0;
+        let totalFilled = 0;
+        
+        for (const [indKey, rows] of Object.entries(formState)) {
+            for (const row of rows) {
+                totalRequired++;
+                if (row.pesertaNdh && row.nilai) {
+                    totalFilled++;
+                }
+            }
+        }
+        
+        if (totalFilled !== totalRequired) {
+            alert(`Penilaian belum lengkap. Terisi ${totalFilled} dari ${totalRequired} penilaian.`);
+            return false;
+        }
+        
+        const confirmCheck = document.getElementById('confirmCheckbox').checked;
+        if (!confirmCheck) {
+            alert('Centang pernyataan bahwa data yang Anda isi sudah benar.');
+            return false;
+        }
+        
+        return { penilaiNdh, penilaiNama };
+    }
+
+    function resetForm() {
+        // Reset formState
+        for (const [kategoriKey, kategori] of Object.entries(indikatorData)) {
+            for (let i = 0; i < kategori.indikator.length; i++) {
+                const indKey = `${kategoriKey}_${i}`;
+                formState[indKey] = [];
+                for (let j = 1; j <= 5; j++) {
+                    formState[indKey].push({ pesertaNdh: '', nilai: '' });
+                }
+            }
+        }
+        
+        // Reset dropdown penilai
+        document.getElementById('penilaiName').value = '';
+        document.getElementById('penilaiNdh').value = '';
+        
+        // Reset checkbox
+        document.getElementById('confirmCheckbox').checked = false;
+        
+        // Reset status message
+        const statusMsg = document.getElementById('statusMsg');
+        statusMsg.innerHTML = '';
+        statusMsg.className = 'status-msg';
+        
+        // Regenerate form
+        generateForm();
+        
+        // Update progress
+        updateProgressSummary();
+    }
+
+    function showSuccessAndReset() {
+        const statusMsg = document.getElementById('statusMsg');
+        statusMsg.innerHTML = 'Selamat penilaian sosiometri anda telah tersimpan';
+        statusMsg.className = 'status-msg success';
+        
+        const simpanBtn = document.getElementById('simpanBtn');
+        const selesaiBtn = document.getElementById('selesaiBtn');
+        
+        simpanBtn.classList.add('hidden');
+        selesaiBtn.classList.remove('hidden');
+    }
+
+    async function sendToGAS(payload) {
+        const response = await fetch(GAS_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        });
+        return { success: true };
+    }
+
+    document.getElementById('simpanBtn').addEventListener('click', async () => {
+        const validation = validateAll();
+        if (!validation) return;
+        
+        const allData = collectAllData();
+        
+        const payload = {
+            timestamp: new Date().toISOString(),
+            penilaiNdh: validation.penilaiNdh,
+            penilaiNama: validation.penilaiNama,
+            data: allData
+        };
+        
+        const simpanBtn = document.getElementById('simpanBtn');
+        simpanBtn.disabled = true;
+        simpanBtn.innerText = 'Mengirim data...';
+        document.getElementById('statusMsg').innerHTML = 'Mengirim ke rekapitulasi...';
+        document.getElementById('statusMsg').className = 'status-msg';
+        
+        try {
+            await sendToGAS(payload);
+            simpanBtn.disabled = false;
+            showSuccessAndReset();
+        } catch(err) {
+            document.getElementById('statusMsg').innerHTML = 'Gagal menyimpan: ' + err.message;
+            document.getElementById('statusMsg').className = 'status-msg';
+            simpanBtn.disabled = false;
+            simpanBtn.innerText = 'Simpan dan Kirim ke Rekapitulasi';
+        }
+    });
+
+    document.getElementById('selesaiBtn').addEventListener('click', () => {
+        resetForm();
+        
+        const simpanBtn = document.getElementById('simpanBtn');
+        const selesaiBtn = document.getElementById('selesaiBtn');
+        
+        simpanBtn.classList.remove('hidden');
+        selesaiBtn.classList.add('hidden');
+        simpanBtn.disabled = false;
+        simpanBtn.innerText = 'Simpan dan Kirim ke Rekapitulasi';
+        
+        const statusMsg = document.getElementById('statusMsg');
+        statusMsg.innerHTML = '';
+        statusMsg.className = 'status-msg';
+        
+        alert('Formulir telah dibersihkan. Anda dapat mengisi penilaian baru.');
+    });
+
+    generateForm();
+    initPenilaiDropdown();
+</script>
+</body>
+</html>
