@@ -94,6 +94,62 @@
             }
         }
 
+        /* PETUNJUK PENGISIAN - GAYA BARU */
+        .petunjuk-section {
+            background: #fffaf0;
+            border-left: 6px solid #e8a838;
+            padding: 16px 24px;
+            margin: 0 28px 20px 28px;
+            border-radius: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .petunjuk-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0a2540;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .petunjuk-section h3:before {
+            content: "📋";
+            font-size: 20px;
+        }
+        .petunjuk-section p {
+            font-size: 14px;
+            color: #2c3e4e;
+            line-height: 1.45;
+            margin-bottom: 12px;
+        }
+        .nilai-deskripsi {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+            border: 1px solid #ffe1b3;
+        }
+        .nilai-item {
+            flex: 1;
+            min-width: 160px;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 8px;
+            background: #fef7e0;
+            border-radius: 12px;
+            color: #6b4c1a;
+        }
+        .nilai-item strong {
+            display: block;
+            font-size: 13px;
+            color: #b1590f;
+            margin-bottom: 4px;
+        }
+
         .info-penilai {
             background: #f8fafd;
             padding: 18px 28px;
@@ -202,11 +258,6 @@
             background: white;
         }
 
-        .peserta-row select:focus {
-            border-color: #e8a838;
-            outline: none;
-        }
-
         .peserta-row .nilai-wrapper {
             flex: 1;
             min-width: 140px;
@@ -226,6 +277,9 @@
             }
             .section {
                 padding: 16px;
+            }
+            .petunjuk-section {
+                margin: 0 16px 20px 16px;
             }
         }
 
@@ -343,6 +397,19 @@
                 <p>Pelatihan Kepemimpinan Administrator</p>
             </div>
         </div>
+    </div>
+
+    <!-- ========= PETUNJUK PENGISIAN (DI BAWAH HEADING) ========= -->
+    <div class="petunjuk-section">
+        <h3>Petunjuk Pengisian Sosiometri</h3>
+        <p>Pada masing-masing aspek penilaian (Kepemimpinan, Kerja Sama, Kedisiplinan), pilihlah <strong>5 (lima) orang peserta</strong> yang menurut Bapak/Ibu paling sesuai dengan pernyataan indikator yang diberikan. Kemudian berikan penilaian terhadap kelima orang tersebut dalam rentang nilai <strong>76 – 100</strong> berdasarkan kriteria berikut:</p>
+        <div class="nilai-deskripsi">
+            <div class="nilai-item"><strong>0 – 75,99</strong> Kurang memenuhi gambaran kriteria berdasarkan indikator penilaian</div>
+            <div class="nilai-item"><strong>76 – 85,99</strong> Cukup memenuhi gambaran kriteria berdasarkan indikator penilaian</div>
+            <div class="nilai-item"><strong>86 – 95,99</strong> Memenuhi gambaran kriteria berdasarkan indikator penilaian atau sesuai harapan</div>
+            <div class="nilai-item"><strong>96 – 100</strong> Sangat memenuhi gambaran kriteria berdasarkan indikator penilaian atau melebihi harapan</div>
+        </div>
+        <p style="margin-top: 8px; font-size:13px;">✓ Pastikan setiap indikator Anda memilih <strong>5 orang berbeda</strong> (tidak boleh sama dalam satu indikator). ✓ Setiap pilihan wajib diberi nilai. ✓ Isi seluruh indikator hingga progress 100%.</p>
     </div>
 
     <div class="info-penilai">
@@ -619,7 +686,7 @@
         const percent = Math.round((filledFields / totalFields) * 100);
         const summary = document.getElementById('progressSummary');
         if (summary) {
-            summary.innerHTML = `Progress pengisian: ${filledFields} dari ${totalFields} penilaian terisi (${percent}%)`;
+            summary.innerHTML = `📊 Progress pengisian: ${filledFields} dari ${totalFields} penilaian terisi (${percent}%) – pastikan semua indikator terisi 5 peserta beserta nilainya.`;
             if (filledFields === totalFields) {
                 summary.style.background = '#e3f5ec';
                 summary.style.color = '#1e7b48';
@@ -703,7 +770,7 @@
         }
         
         if (totalFilled !== totalRequired) {
-            alert(`Penilaian belum lengkap. Terisi ${totalFilled} dari ${totalRequired} penilaian.`);
+            alert(`Penilaian belum lengkap. Terisi ${totalFilled} dari ${totalRequired} penilaian. Harap isi seluruh 5 pilihan peserta beserta nilai untuk setiap indikator.`);
             return false;
         }
         
@@ -728,28 +795,21 @@
             }
         }
         
-        // Reset dropdown penilai
         document.getElementById('penilaiName').value = '';
         document.getElementById('penilaiNdh').value = '';
-        
-        // Reset checkbox
         document.getElementById('confirmCheckbox').checked = false;
         
-        // Reset status message
         const statusMsg = document.getElementById('statusMsg');
         statusMsg.innerHTML = '';
         statusMsg.className = 'status-msg';
         
-        // Regenerate form
         generateForm();
-        
-        // Update progress
         updateProgressSummary();
     }
 
     function showSuccessAndReset() {
         const statusMsg = document.getElementById('statusMsg');
-        statusMsg.innerHTML = 'Selamat penilaian sosiometri anda telah tersimpan';
+        statusMsg.innerHTML = '✅ Selamat! Penilaian sosiometri anda telah tersimpan. Klik "Selesai" untuk membersihkan form dan melanjutkan ke penilaian lain.';
         statusMsg.className = 'status-msg success';
         
         const simpanBtn = document.getElementById('simpanBtn');
@@ -760,7 +820,8 @@
     }
 
     async function sendToGAS(payload) {
-        const response = await fetch(GAS_URL, {
+        // Mode no-cors tidak mengembalikan response json, tetapi tetap mengirim
+        await fetch(GAS_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
@@ -787,7 +848,7 @@
         const simpanBtn = document.getElementById('simpanBtn');
         simpanBtn.disabled = true;
         simpanBtn.innerText = 'Mengirim data...';
-        document.getElementById('statusMsg').innerHTML = 'Mengirim ke rekapitulasi...';
+        document.getElementById('statusMsg').innerHTML = '⏳ Mengirim ke rekapitulasi...';
         document.getElementById('statusMsg').className = 'status-msg';
         
         try {
@@ -795,7 +856,7 @@
             simpanBtn.disabled = false;
             showSuccessAndReset();
         } catch(err) {
-            document.getElementById('statusMsg').innerHTML = 'Gagal menyimpan: ' + err.message;
+            document.getElementById('statusMsg').innerHTML = '⚠️ Gagal menyimpan: ' + err.message;
             document.getElementById('statusMsg').className = 'status-msg';
             simpanBtn.disabled = false;
             simpanBtn.innerText = 'Simpan dan Kirim ke Rekapitulasi';
